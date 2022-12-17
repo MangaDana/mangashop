@@ -1,0 +1,14 @@
+{
+   "posts" : [
+    {
+        "name" : "KNY Unisex T-Shirt",
+        "imageSrc" : "https://teeruto.com/wp-content/uploads/2021/10/tanjiro-demon-slayer-kimetsu-anime-unisex-tshirt22489.jpg",
+        "price" : "$20.00"
+    },
+    {
+        "name" : "Haikyu Long Sleeve Shirt",
+        "imageSrc": "https://res.cloudinary.com/teepublic/image/private/s--uJFPD-R---/t_Resized%20Artwork/c_crop,x_10,y_10/c_fit,h_647/c_crop,g_north_west,h_588,w_441,x_77,y_0/g_north_west,u_upload:v1446840633:production:blanks:ibs7cls1uuxnuwgy7pev,x_-409,y_-299/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1609350006/production/designs/18044448_0.jpg",
+        "price" : "$17.00"
+    }
+   ]
+}
