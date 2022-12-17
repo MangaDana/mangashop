@@ -12,8 +12,13 @@ const navigation = [
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
-
+import { UserContext } from '../UserContext'
+import { useContext } from 'react'
+import axios from 'axios'
 export default function Navbar() {
+   const { user, setUser } = useContext(UserContext);
+console.log(user);
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -77,8 +82,10 @@ export default function Navbar() {
                     <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="sr-only">Open user menu</span>
                       <img
+                      height='20px'
+                      width='20px'
                         className="h-8 w-8 rounded-full"
-                        src="https://cdn.iconscout.com/icon/free/png-256/account-avatar-profile-human-man-user-30448.png"
+                        src={user && user.image}
                         alt=""
                       />
                     </Menu.Button>
@@ -116,7 +123,9 @@ export default function Navbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
+                          onClick={()=>{localStorage.clear()
+                axios.delete('http://localhost:5000/cart.detetall')}}
+                            href="login"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Sign out

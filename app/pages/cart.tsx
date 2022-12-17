@@ -3,7 +3,8 @@ import Home from "./index"
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-
+import { useContext } from "react";
+import { UserContext } from "../UserContext";
 const products = [
   {
     id: 1,

@@ -1,11 +1,10 @@
 import React, { useContext } from 'react'
-import Navbar from '../components/Navbar'
-import { UserContext } from '../UserContext'
+
+import { UserContext } from '../../UserContext'
 
 const index = () => {
-  const {user,setUser}=useContext(UserContext)
+  const {user,setUser}:any=useContext(UserContext)
 
-  
   return (
    <>
   <title>Mangadana</title>
