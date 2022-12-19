@@ -1,45 +1,29 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import axios from "axios";
-import React,{useState} from "react"
+import React, { useState,useContext, useEffect } from "react";
 import { info } from "console";
-export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await axios.get("http://localhost:5000/products");
-  const data = await res.data;
+import { UserContext } from "../../UserContext";
 
+const name=() => {
+  const { allProducts, OneProduct, setOneProduct }: any =
+    useContext(UserContext);
+    useEffect(()=>{
+  let path=(window.location.pathname.split('/'))
 
-  // map data to an array of path objects with params (id)
-  const paths = data.map((product:any) => {
-    return {
-      params: { name: product.name.toString() },
-    };
-  });
+axios.get(`http://localhost:3000/api/product/${path[path.length-1]}`).then((response) => {setOneProduct(response.data[0]);
+});
+},[])
 
-  return {
-    paths,
-    fallback: false,
+  const [quantity, setQuantity] = useState(1);
+
+  const addToCart = (body: any) => {
+    axios
+      .post("http://localhost:3000/api/cart", body)
+      .then((response) => {
+        alert("add to cart");
+      })
+      .catch((err) => console.log(err));
   };
-};
-
-export const getStaticProps: GetStaticProps = async (context: any) => {
-  const name = context.params.name;
-  
-
-  const res = await axios.get("http://localhost:5000/products/" + name);
-  const result: any = await res.data;
-
-  return {
-    props: { product: result },
-  };
-};
-const name: NextPage<{ product: any }> = ({ product }) => {
-
-  const [quantity,setQuantity]= useState(1)
-
-const addToCart = (body: any) => {
-  axios.post("http://localhost:5000/cart/add",body).then((response) => {
-    alert('add to cart')
-  }).catch(err=>console.log(err))
-};
   return (
     <>
       <div className="site-wrap">
@@ -49,7 +33,9 @@ const addToCart = (body: any) => {
               <div className="col-md-12 mb-0">
                 <a href="index.html">Home</a>{" "}
                 <span className="mx-2 mb-0">/</span>{" "}
-                <strong className="text-black">{product && product.name}</strong>
+                <strong className="text-black">
+                  {OneProduct && OneProduct.name}
+                </strong>
               </div>
             </div>
           </div>
@@ -58,14 +44,14 @@ const addToCart = (body: any) => {
           <div className="container">
             <div className="row">
               <div className="col-md-6">
-                <img src={product.image} alt="Image" className="img-fluid" />
+                <img src={OneProduct.image} alt="Image" className="img-fluid" />
               </div>
               <div className="col-md-6">
-                <h2 className="text-black">{product.name}</h2>
-                <h4>{product.anime}</h4>
-                <p className="mb-4">{product.description}</p>
+                <h2 className="text-black">{OneProduct.name}</h2>
+                <h4>{OneProduct.anime}</h4>
+                <p className="mb-4">{OneProduct.description}</p>
                 <p>
-                  <strong className="text-primary h4">{product.price}</strong>
+                  <strong className="text-primary h4">{OneProduct.price}</strong>
                 </p>
                 <div className="mb-1 d-flex">
                   <label htmlFor="option-sm" className="d-flex mr-3 mb-3">
@@ -114,8 +100,9 @@ const addToCart = (body: any) => {
                       <button
                         onClick={() => {
                           let quan = quantity;
-                          if(quan>1){setQuantity(quan -1);}
-                          
+                          if (quan > 1) {
+                            setQuantity(quan - 1);
+                          }
                         }}
                         className="btn btn-outline-primary js-btn-minus"
                         type="button"
@@ -124,10 +111,11 @@ const addToCart = (body: any) => {
                       </button>
                     </div>
                     <input
-                    onChange={(e)=>{
-                      let value:any = Number(e.target.value);
-                      if(value<=product.stock){setQuantity(value);}
-                      else alert("not engoh stock")
+                      onChange={(e) => {
+                        let value: any = Number(e.target.value);
+                        if (value <= OneProduct.stock) {
+                          setQuantity(value);
+                        } else alert("not engoh stock");
                       }}
                       type="text"
                       className="form-control text-center"
@@ -140,11 +128,9 @@ const addToCart = (body: any) => {
                       <button
                         onClick={() => {
                           let quan = quantity;
-                      if (quan+1 <= product.stock) {
-                        setQuantity(quan + 1);
-                      } else alert("not engoh stock");
-
-                          
+                          if (quan + 1 <= OneProduct.stock) {
+                            setQuantity(quan + 1);
+                          } else alert("not engoh stock");
                         }}
                         className="btn btn-outline-primary js-btn-plus"
                         type="button"
@@ -154,15 +140,18 @@ const addToCart = (body: any) => {
                     </div>
                   </div>
                 </div>
-                <p 
-                onClick={()=>{addToCart({name: product.name, Quantity: quantity,price:product.price,image:product.image})}}
-                className="buy-now btn btn-sm btn-outline-black">
-                  
-                  
-                    
-                  
-                    Add To Cart
-                  
+                <p
+                  onClick={() => {
+                    addToCart({
+                      name: OneProduct.name,
+                      Quantity: quantity,
+                      price: OneProduct.price,
+                      image: OneProduct.image,
+                    });
+                  }}
+                  className="buy-now btn btn-sm btn-outline-black"
+                >
+                  Add To Cart
                 </p>
               </div>
             </div>
@@ -171,6 +160,6 @@ const addToCart = (body: any) => {
       </div>
     </>
   );
-}
+};
 
 export default name;

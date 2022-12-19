@@ -17,7 +17,7 @@ import { useContext } from 'react'
 import axios from 'axios'
 export default function Navbar() {
    const { user, setUser } = useContext(UserContext);
-console.log(user);
+
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -115,7 +115,7 @@ console.log(user);
                         {({ active }) => (
                           <Link
                           onClick={()=>{localStorage.clear()
-                axios.delete('http://localhost:5000/cart/all')}}
+                axios.delete('http://localhost:3000/api/cart')}}
                             href="/"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >

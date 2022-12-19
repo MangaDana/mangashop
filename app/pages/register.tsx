@@ -10,7 +10,7 @@ export default function Example() {
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
     const signup=(body:any)=>{
-        axios.post('http://localhost:5000/user/signUp',body).then(res=>{
+        axios.post('http://localhost:3000/api/auth/signUp',body).then(res=>{
           localStorage.setItem("token", res.data)
           window.location.href='/shop'
 

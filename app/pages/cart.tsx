@@ -7,21 +7,15 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useContext } from "react";
 import { UserContext } from "../UserContext";
 import React from 'react'
-export const getStaticProps: any = async () => {
- 
+
+const cart=() => {
+   const { allCart, setAllCart}: any =
+     useContext(UserContext);
+
   
-
-  const res = await axios.get("http://localhost:5000/cart" );
-  const result: any = await res.data;
-
-  return {
-    props: { products: result },
-  };
-};
-const cart: NextPage<{ products: any }> = ({ products }) => {
-  const [data,setData]=useState(products)
+  const [data,setData]=useState(allCart)
    const [total, setTotal] = useState(
-     products.reduce(function (accumulator: any, currentValue: any) {
+     allCart.reduce(function (accumulator: any, currentValue: any) {
     
 
        return accumulator + currentValue.price;
@@ -29,8 +23,8 @@ const cart: NextPage<{ products: any }> = ({ products }) => {
    );
   const [open, setOpen] = useState(true);
 const removeItem = (item: any) => {
-  axios.delete(`http://localhost:5000/cart/${item}`).then((res) => {alert('item removed')
- axios.get("http://localhost:5000/cart").then((res:any)=>setData(res.data))
+  axios.delete(`http://localhost:3000/api/cart/${item}`).then((res) => {alert('item removed')
+ axios.get("http://localhost:3000/api/cart").then((res:any)=>setData(res.data))
 }).catch(err=>console.log(err))
 }
   return (

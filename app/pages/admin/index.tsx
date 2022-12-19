@@ -1,21 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Table from "react-bootstrap/Table";
-export const getStaticProps: any = async () => {
+import OneUserrow from "../../components/OneUserrow";
+const admin=() => {
+
+  const [users,setUsers]=useState([])
+useEffect(()=>{
+  axios.get('http://localhost:3000/api/user').then((response) => {setUsers(response.data)
+  });
+},[])
+const deleteUser = (user:any) =>{
+  console.log(user);
+
   
-
-  const res = await axios.get("http://localhost:5000/user");
-  const result: any = await res.data;
-
-  return {
-    props: { users: result },
-  };
-};
-const admin: NextPage<{ users: any }> = ({ users }) => {
-console.log(users);
-
-
+  axios.delete(`http://localhost:3000/api/user/${user}`).then(res=>{
+    axios.get("http://localhost:3000/api/user").then((response) => {
+      setUsers(response.data);
+    });
+  
+  alert(user + " deleted successfully");}).catch(err=>{console.error(err)});
+}
   return (
     <>
       <meta charSet="utf-8" />
@@ -83,18 +88,33 @@ console.log(users);
                     </div>
                   </div>
                 </div>
-                <div className="col-xl-6">
+                <div className="col-xl-12">
                   <div className="card mb-4">
                     <div className="card-header">
                       <i className="fas fa-chart-area me-1" />
                       Users
                     </div>
                     <div className="card-body">
-                     hi
+                      <table className="table table-hover">
+                        <thead className="table-dark">
+                          <tr>
+                            <th scope="col">photo</th>
+                            <th scope="col">email</th>
+                            <th scope="col">name</th>
+                            <th scope="col">balence</th>
+                            <th scope="col">actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {users.map((user: any) => (
+                            <OneUserrow user={user} deleteUser={deleteUser} />
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
-                <div className="col-xl-6">
+                <div className="col-xl-12">
                   <div className="card mb-4">
                     <div className="card-header">
                       <i className="fas fa-chart-bar me-1" />
@@ -115,3 +135,4 @@ console.log(users);
 };
 
 export default admin;
+ 

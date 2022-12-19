@@ -7,11 +7,18 @@ import { UserContext } from "../UserContext";
 import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import Layout from '../components/Layout';
-export default function App({ Component, pageProps, ...appProps }: AppProps) {
+import { log } from 'console';
+export default  function App({ Component, pageProps, ...appProps }: AppProps) {
   const [user, setUser] = useState();
   const [allProducts, setAllProducts] = useState([]);
   const [OneProduct, setOneProduct] = useState({})
-  console.log(user)
+  const [allCart,setAllCart] = useState([])
+ 
+   
+
+
+
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -22,7 +29,7 @@ export default function App({ Component, pageProps, ...appProps }: AppProps) {
         localStorage.removeItem("token");
       } else {
         axios
-          .get(`http://localhost:5000/user/${user.email}`)
+          .get(`http://localhost:3000/api/user/${user.email}`)
           .then((res) => {
             setUser(res.data);
           })
@@ -30,12 +37,19 @@ export default function App({ Component, pageProps, ...appProps }: AppProps) {
       }
     }
     axios
-      .get(`http://localhost:5000/products`)
+      .get(`http://localhost:3000/api/product`)
       .then((res) => {
         setAllProducts(res.data);
       })
       .catch((err) => console.log(err));
+         axios
+           .get(`http://localhost:3000/api/cart`)
+           .then((res) => {
+             setAllCart(res.data);
+           })
+           .catch((err) => console.log(err));
   }, []);
+console.log(OneProduct);
 
   // const getContent = () => {
   //   if (
@@ -115,6 +129,7 @@ export default function App({ Component, pageProps, ...appProps }: AppProps) {
         setAllProducts,
         OneProduct,
         setOneProduct,
+        allCart,setAllCart
       }}
     >
       <Layout>
@@ -123,31 +138,3 @@ export default function App({ Component, pageProps, ...appProps }: AppProps) {
     </UserContext.Provider>
   );
 }
-// const getContent = () => {
-//   if (!user && ["/"].includes(appProps.router.pathname)) {
-//     return <Component {...pageProps} />;
-//   } else if (
-//     user.admin == true &&
-//     ["/admin"].includes(appProps.router.pathname)
-//   ) {
-//     return (
-//       <Layout>
-//         <Component {...pageProps} />{" "}
-//       </Layout>
-//     );
-//   } else if (
-//     (user.admin == false &&
-//       (["/shop"].includes(appProps.router.pathname) ||
-//         ["/shop/[name]"].includes(appProps.router.pathname) ||
-//         ["/cart"].includes(appProps.router.pathname) ||
-//         ["/home"].includes(appProps.router.pathname))) ||
-//     ["/checkOut"].includes(appProps.router.pathname)
-//   )
-//     return (
-//       <Layout>
-//         <Component {...pageProps} />{" "}
-//       </Layout>
-//     );
-// };
-
-// return getContent();

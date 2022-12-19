@@ -4,28 +4,33 @@ import Link from 'next/link'
 import { UserContext } from '../../UserContext'
 
 const index = () => {
+  
+ 
+  
+  const {allProducts,setAllProducts,setOneProduct}:any=useContext(UserContext)
+
+
   const addToCart = (body: any) => {
     axios
-      .post("http://localhost:5000/cart/add", body)
+      .post("http://localhost:3000/api/cart", body)
       .then((response) => {
         alert("add to cart");
       })
       .catch((err) => console.log(err));
   };
-  const {allProducts,setAllProducts,setOneProduct}:any=useContext(UserContext)
  const refreshData = () => {
-  axios.get('http://localhost:5000/products').then(res=>setAllProducts(res.data))
+  axios.get('http://localhost:3000/api/product').then(res=>setAllProducts(res.data))
  }
  const filterByCategories:any=async(categories:any)=>{
 
-  axios.get('http://localhost:5000/products').then(res=>setAllProducts(res.data)).then(res=>{const filtred=  allProducts.filter((e:any)=>e.categorie==categories)
+  axios.get('http://localhost:3000/api/product').then(res=>setAllProducts(res.data)).then(res=>{const filtred=  allProducts.filter((e:any)=>e.categorie==categories)
 setAllProducts(filtred)
 })
  
 }
  const filterByAnime:any=async(categories:any)=>{
 
-  axios.get('http://localhost:5000/products').then(res=>setAllProducts(res.data)).then(res=>{const filtred=  allProducts.filter((e:any)=>e.categorie==categories)
+  axios.get('http://localhost:3000/api/product').then(res=>setAllProducts(res.data)).then(res=>{const filtred=  allProducts.filter((e:any)=>e.categorie==categories)
 setAllProducts(filtred)
 })
  
@@ -79,7 +84,7 @@ setAllProducts(filtred)
                         <div className="block-4 text-center border">
                           <figure
                             className="block-4-image"
-                            onClick={() => setOneProduct(e)}
+                           
                           >
                             <Link href={"/shop/" + e.name}>
                               <img

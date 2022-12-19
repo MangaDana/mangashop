@@ -8,7 +8,7 @@ export default function Example() {
     const [password,setPassword]=useState('')
   
      const LogIn=(body)=>{
-        axios.post('http://localhost:5000/user/login',body).then(res=>{
+        axios.post('http://localhost:3000/api/auth/login',body).then(res=>{
           localStorage.setItem("token", res.data)
           window.location.href='/home'
 

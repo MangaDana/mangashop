@@ -1,5 +1,5 @@
 import  mongoose from "mongoose";
-import connection from "../utils/database"
+import connection from "../utils/database";
 console.log(connection);
 const Cart = mongoose.Schema({
   name: { type: String, required: true },
