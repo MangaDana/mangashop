@@ -1,182 +1,109 @@
-import React, { useContext } from 'react'
-import Navbar from '../components/Navbar'
-import { UserContext } from '../UserContext'
-
-const index = () => {
-  const {user,setUser}=useContext(UserContext)
-
+import { LockClosedIcon } from '@heroicons/react/20/solid'
+import axios from 'axios';
+import { useContext,useState } from "react";
+import { UserContext } from "../UserContext";
+export default function Example() {
+  const { user}:any=useContext(UserContext)
+      const [email,setEmail]=useState('')
+    const [password,setPassword]=useState('')
   
-  return (
-   <>
-  <title>Mangadana</title>
-  <meta charSet="utf-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, shrink-to-fit=no"
-  />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Mukta:300,400,700"
-  />
-  <link rel="stylesheet" href="fonts/icomoon/style.css" />
-  <link rel="stylesheet" href="css/bootstrap.min.css" />
-  <link rel="stylesheet" href="css/magnific-popup.css" />
-  <link rel="stylesheet" href="css/jquery-ui.css" />
-  <link rel="stylesheet" href="css/owl.carousel.min.css" />
-  <link rel="stylesheet" href="css/owl.theme.default.min.css" />
-  <link rel="stylesheet" href="css/aos.css" />
-  <link rel="stylesheet" href="css/style.css" />
-  <div className="site-wrap">
-    
-    <div className="bg-light py-3">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12 mb-0">
-            <a href="index.html">Home</a> <span className="mx-2 mb-0">/</span>{" "}
-            <strong className="text-black">Shop</strong>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div className="site-section">
-      <div className="container">
-        <div className="row mb-5">
-          <div className="col-md-9 order-2">
-            <div className="row">
-              <div className="col-md-12 mb-5">
-                <div className="float-md-left mb-4">
-                  <h2 className="text-black h5">Shop All</h2>
-                </div>
-                
-              </div>
-            </div>
-            <div className="row mb-5">
-             
-              
-              {['','','','','',''].map(e=>( <><div className="col-sm-6 col-lg-4 mb-4" >
-                <div className="block-4 text-center border">
-                  <figure className="block-4-image">
-                    <a href="shop-single.html">
-                      <img
-                        src="images/cloth_1.jpg"
-                        alt="Image placeholder"
-                        className="img-fluid"
-                      />
-                    </a>
-                  </figure>
-                  <div className="block-4-text p-4">
-                    <h3>
-                      <a href="shop-single.html">Tank Top</a>
-                    </h3>
-                    <p className="mb-0">Finding perfect t-shirt</p>
-                    <p className="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div></>))}
-            </div>
-                      </div>
-          <div className="col-md-3 order-1 mb-5 mb-md-0">
-            <div className="border p-4 rounded mb-4">
-              <h3 className="mb-3 h6 text-uppercase text-black d-block">
-                Categories
-              </h3>
-              <ul className="list-unstyled mb-0">
-                <li className="mb-1">
-                  <a href="#" className="d-flex">
-                    <span>Men</span>{" "}
-                   
-                  </a>
-                </li>
-                <li className="mb-1">
-                  <a href="#" className="d-flex">
-                    <span>Women</span>{" "}
-                   
-                  </a>
-                </li>
-                <li className="mb-1">
-                  <a href="#" className="d-flex">
-                    <span>Children</span>{" "}
-                   
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className="border p-4 rounded mb-4">
-              <div className="mb-4">
-                <h3 className="mb-3 h6 text-uppercase text-black d-block">
-                  Filter by Price
-                </h3>
-                 <div className="shop__sidebar__price">
-                          <ul>
-                            <li  className='btn'>
-                              0.00 dt - 50.00 dt
-                            </li>
-                            <li  className='btn'>
-                              50.00 dt - 100.00 dt
-                            </li>
-                            <li  className='btn'>
-                              100.00 dt - 150.00 dt
-                            </li>
-                            <li  className='btn'>
-                              150.00 dt - 200.00 dt
-                            </li>
-                            <li  className='btn'>
-                              200.00 dt - 250.00 dt
-                            </li>
-                            <li  className='btn'>
-                              250.00 dt +
-                            </li>
-                          </ul>
-                        </div>
-              </div>
-              <div className="mb-4">
-                <h3 className="mb-3 h6 text-uppercase text-black d-block">
-                  Size
-                </h3>
-                <label htmlFor="s_sm" className="d-flex">
-                  <input type="checkbox" id="s_sm" className="mr-2 mt-1" />{" "}
-                 Small
-                </label>
-                <label htmlFor="s_md" className="d-flex">
-                  <input type="checkbox" id="s_md" className="mr-2 mt-1" />{" "}
-                 Medium 
-                </label>
-                <label htmlFor="s_lg" className="d-flex">
-                  <input type="checkbox" id="s_lg" className="mr-2 mt-1" />{" "}
-                 Large
-                </label>
-              </div>
-              <div className="mb-4">
-                <h3 className="mb-3 h6 text-uppercase text-black d-block">
-                  Color
-                </h3>
-                <a href="#" className="d-flex color-item align-items-center">
-                  <span className="bg-danger color d-inline-block rounded-circle mr-2" />{" "}
-                  <span className="text-black">Red </span>
-                </a>
-                <a href="#" className="d-flex color-item align-items-center">
-                  <span className="bg-success color d-inline-block rounded-circle mr-2" />{" "}
-                  <span className="text-black">Green </span>
-                </a>
-                <a href="#" className="d-flex color-item align-items-center">
-                  <span className="bg-info color d-inline-block rounded-circle mr-2" />{" "}
-                  <span className="text-black">Blue </span>
-                </a>
-                <a href="#" className="d-flex color-item align-items-center">
-                  <span className="bg-primary color d-inline-block rounded-circle mr-2" />{" "}
-                  <span className="text-black">Purple </span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-      </div>
-    </div>
-  </div>
-</>
+     const LogIn=(body)=>{
+        axios.post('http://localhost:5000/user/login',body).then(res=>{
+          localStorage.setItem("token", res.data)
+          window.location.href='/home'
 
+        }
+        ).catch(err=>alert(err)
+        )
+    }
+  return (
+    <>
+      {/*
+        This example requires updating your template:
+
+        ```
+        <html class="h-full bg-gray-50">
+        <body class="h-full">
+        ```
+      */}
+      <div>
+      
+      <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        
+        <div className="w-full max-w-md space-y-8">
+          <div>
+            <img
+              className="mx-auto h-12 w-auto"
+              src="https://i.ibb.co/BzKdnnM/logomangadana.png"
+              alt="Your Company"
+            />
+            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
+               Login
+            </h2>
+          </div>
+         
+            <input type="hidden" name="remember" defaultValue="true" />
+            <div className="-space-y-px rounded-md shadow-sm">
+              <div>
+                <label htmlFor="email-address" className="sr-only">
+                  Email address
+                </label>
+                <input
+                onChange={e=>setEmail(e.target.value)}
+
+                  id="email-address"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  placeholder="Email address"
+                />
+              </div>
+              <div>
+                <label htmlFor="password" className="sr-only">
+                  Password
+                </label>
+                <input
+                onChange={e=>setPassword(e.target.value)}
+
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  placeholder="Password"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+            
+
+              <div className="text-sm">
+                <a href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
+                 Doesn t have an account?
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <button
+             onClick={()=>LogIn({password,email})}
+                className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              >
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
+                </span>
+                Sign in
+              </button>
+            </div>
+         
+        </div>
+      </div>
+      </div>
+     
+    </>
   )
 }
-
-export default index

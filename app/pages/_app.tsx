@@ -7,15 +7,16 @@ import { UserContext } from "../UserContext";
 import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import Layout from '../components/Layout';
-export default function App({ Component, pageProps }: AppProps) {
-  
-   const [user, setUser] = useState(null);
-console.log(user)
-  useEffect (()=> { 
-  const token = localStorage.getItem("token");
+export default function App({ Component, pageProps, ...appProps }: AppProps) {
+  const [user, setUser] = useState();
+  const [allProducts, setAllProducts] = useState([]);
+  const [OneProduct, setOneProduct] = useState({})
+  console.log(user)
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
     if (token) {
       const user = jwt(token);
-
 
       if (!user) {
         localStorage.removeItem("token");
@@ -24,14 +25,129 @@ console.log(user)
           .get(`http://localhost:5000/user/${user.email}`)
           .then((res) => {
             setUser(res.data);
-          }).catch(err=>console.log(err)
-          )
+          })
+          .catch((err) => console.log(err));
       }
     }
-  },[])
+    axios
+      .get(`http://localhost:5000/products`)
+      .then((res) => {
+        setAllProducts(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
+  // const getContent = () => {
+  //   if (
+  //     !user &&
+  //     (["/"].includes(appProps.router.pathname) ||
+  //       ["/register"].includes(appProps.router.pathname))
+  //   ) {
+  //     return (
+  //       <UserContext.Provider
+  //         value={{
+  //           user,
+  //           setUser,
+  //           allProducts,
+  //           setAllProducts,
+  //           OneProduct,
+  //           setOneProduct,
+  //         }}
+  //       >
+  //         <Layout>
+  //           <Component {...pageProps} />
+  //         </Layout>
+  //       </UserContext.Provider>
+  //     );
+  //   } else if (
+  //     user.admin == true &&
+  //     ["/dashboard"].includes(appProps.router.pathname)
+  //   ) {
+  //     return (
+  //       <UserContext.Provider
+  //         value={{
+  //           user,
+  //           setUser,
+  //           allProducts,
+  //           setAllProducts,
+  //           OneProduct,
+  //           setOneProduct,
+  //         }}
+  //       >
+  //         <Layout>
+  //           <Component {...pageProps} />
+  //         </Layout>
+  //       </UserContext.Provider>
+  //     );
+  //   } else if (
+  //     user.admin == false &&
+  //     (["/shop"].includes(appProps.router.pathname) ||
+  //       ["/shop/[name]"].includes(appProps.router.pathname) ||
+  //       ["/cart"].includes(appProps.router.pathname) ||
+  //       ["/home"].includes(appProps.router.pathname) ||
+  //       ["/checkOut"].includes(appProps.router.pathname))
+  //   )
+  //     return (
+  //       <UserContext.Provider
+  //         value={{
+  //           user,
+  //           setUser,
+  //           allProducts,
+  //           setAllProducts,
+  //           OneProduct,
+  //           setOneProduct,
+  //         }}
+  //       >
+  //         <Layout>
+  //           <Component {...pageProps} />
+  //         </Layout>
+  //       </UserContext.Provider>
+  //     );
+  // };
 
+  // return getContent();
   return (
-   <UserContext.Provider value={{user,setUser}}><Layout>
-  <Component {...pageProps} /></Layout></UserContext.Provider>)
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        allProducts,
+        setAllProducts,
+        OneProduct,
+        setOneProduct,
+      }}
+    >
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </UserContext.Provider>
+  );
 }
+// const getContent = () => {
+//   if (!user && ["/"].includes(appProps.router.pathname)) {
+//     return <Component {...pageProps} />;
+//   } else if (
+//     user.admin == true &&
+//     ["/admin"].includes(appProps.router.pathname)
+//   ) {
+//     return (
+//       <Layout>
+//         <Component {...pageProps} />{" "}
+//       </Layout>
+//     );
+//   } else if (
+//     (user.admin == false &&
+//       (["/shop"].includes(appProps.router.pathname) ||
+//         ["/shop/[name]"].includes(appProps.router.pathname) ||
+//         ["/cart"].includes(appProps.router.pathname) ||
+//         ["/home"].includes(appProps.router.pathname))) ||
+//     ["/checkOut"].includes(appProps.router.pathname)
+//   )
+//     return (
+//       <Layout>
+//         <Component {...pageProps} />{" "}
+//       </Layout>
+//     );
+// };
+
+// return getContent();
