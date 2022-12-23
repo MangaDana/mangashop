@@ -1,7 +1,7 @@
 import Navbar from "../components/Navbar"
 import Home from "./shop/index"
-import axios from "axios"
-import { Fragment, useState } from 'react'
+import axios, { all } from "axios"
+import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useContext } from "react";
@@ -12,8 +12,8 @@ const cart=() => {
    const { allCart, setAllCart}: any =
      useContext(UserContext);
 
-  
-  const [data,setData]=useState(allCart)
+     const [data,setData]=useState([])
+    
    const [total, setTotal] = useState(
      allCart.reduce(function (accumulator: any, currentValue: any) {
     
@@ -21,6 +21,8 @@ const cart=() => {
        return accumulator + currentValue.price;
      }, 0)
    );
+   console.log(total,allCart);
+   
   const [open, setOpen] = useState(true);
 const removeItem = (item: any) => {
   axios.delete(`http://localhost:3000/api/cart/${item}`).then((res) => {alert('item removed')
@@ -84,7 +86,7 @@ const removeItem = (item: any) => {
                               role="list"
                               className="-my-6 divide-y divide-gray-200"
                             >
-                              {data.map((product) => (
+                              {allCart.map((product) => (
                                 <li key={product._id} className="flex py-6">
                                   <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                     <img
@@ -136,7 +138,7 @@ const removeItem = (item: any) => {
                         </p>
                         <div className="mt-6">
                           <a
-                            href="#"
+                            href="/checkOut"
                             className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                           >
                             Checkout
@@ -148,7 +150,7 @@ const removeItem = (item: any) => {
                             <button
                               type="button"
                               className="font-medium text-indigo-600 hover:text-indigo-500"
-                              onClick={() => setOpen(false)}
+                              onClick={() => window.location.href="/shop"}
                             >
                               Continue Shopping
                               <span aria-hidden="true"> &rarr;</span>

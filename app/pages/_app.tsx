@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import jwt from 'jwt-decode'
-
+import cloudDinary from '../utils/cloudinary'
 import type { AppProps } from 'next/app'
 import { UserContext } from "../UserContext";
 import { useEffect, useMemo, useState } from 'react';

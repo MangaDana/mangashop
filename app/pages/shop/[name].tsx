@@ -26,7 +26,7 @@ axios.get(`http://localhost:3000/api/product/${path[path.length-1]}`).then((resp
   };
   return (
     <>
-      <div className="site-wrap">
+      
         <div className="bg-light py-3">
           <div className="container">
             <div className="row">
@@ -157,7 +157,7 @@ axios.get(`http://localhost:3000/api/product/${path[path.length-1]}`).then((resp
             </div>
           </div>
         </div>
-      </div>
+    
     </>
   );
 };

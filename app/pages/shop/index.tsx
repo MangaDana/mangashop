@@ -1,14 +1,13 @@
-import axios from 'axios'
-import React, { useContext,useState } from 'react'
-import Link from 'next/link'
-import { UserContext } from '../../UserContext'
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import Link from "next/link";
+import { UserContext } from "../../UserContext";
 
 const index = () => {
-  
- 
-  
-  const {allProducts,setAllProducts,setOneProduct}:any=useContext(UserContext)
-
+  const { allProducts, setAllProducts, setOneProduct }: any =
+    useContext(UserContext);
+const image = allProducts.map((e) => e.image);
+// console.log(image,'imaeg');
 
   const addToCart = (body: any) => {
     axios
@@ -18,23 +17,30 @@ const index = () => {
       })
       .catch((err) => console.log(err));
   };
- const refreshData = () => {
-  axios.get('http://localhost:3000/api/product').then(res=>setAllProducts(res.data))
- }
- const filterByCategories:any=async(categories:any)=>{
-
-  axios.get('http://localhost:3000/api/product').then(res=>setAllProducts(res.data)).then(res=>{const filtred=  allProducts.filter((e:any)=>e.categorie==categories)
-setAllProducts(filtred)
-})
- 
-}
- const filterByAnime:any=async(categories:any)=>{
-
-  axios.get('http://localhost:3000/api/product').then(res=>setAllProducts(res.data)).then(res=>{const filtred=  allProducts.filter((e:any)=>e.categorie==categories)
-setAllProducts(filtred)
-})
- 
-}
+  const refreshData = () => {
+    axios
+      .get("http://localhost:3000/api/product")
+      .then((res) => setAllProducts(res.data));
+  };
+  const filterByCategories: any = async (categories: any) => {
+    axios
+      .get("http://localhost:3000/api/product")
+      .then((res) => setAllProducts(res.data))
+      .then((res) => {
+        const filtred = allProducts.filter(
+          (e: any) => e.categorie == categories
+        );
+        setAllProducts(filtred);
+      });
+  };
+   const filterByPrice: any = (min: any, max: any, price: any) => {
+    axios
+      .get("http://localhost:3000/api/product")
+      .then((res) => setAllProducts(res.data))
+      .then((res) => {
+     const filtred = allProducts.filter((e) => e.price > min && e.price < max);
+     setAllProducts(filtred);
+   })}
   return (
     <>
       <title>Mangadana</title>
@@ -77,49 +83,51 @@ setAllProducts(filtred)
                     </div>
                   </div>
                 </div>
-                <div className="row mb-5">
-                  {allProducts.map((e: any) => (
-                    <div key={e._id}>
-                      <div className="col-sm-6 col-lg-4 mb-4">
-                        <div className="block-4 text-center border">
-                          <figure
-                            className="block-4-image"
-                           
-                          >
+
+                <div className=" row">
+                  {allProducts.map((e: any, i: any) => {
+                    console.log(e.image);
+
+                    return (
+                      <div key={e._id} className="col-4 p-2">
+                        <div className="">
+                          <div className="block-4 text-center border">
                             <Link href={"/shop/" + e.name}>
                               <img
+                                style={{ height: "300px" }}
                                 src={e.image}
-                                alt="Image placeholder"
+                                alt={e.image}
                                 className="img-fluid"
                               />
                             </Link>
-                          </figure>
-                          <div className="block-4-text p-4">
-                            <h3>
-                              <Link href={"/shop/" + e.name}>{e.name}</Link>
-                            </h3>
-                            <p className="mb-0">{e.anime}</p>
-                            <p className="text-primary font-weight-bold">
-                              {e.price}
-                            </p>
-                          </div>
-                          <div
-                            onClick={() => {
-                              addToCart({
-                                name: e.name,
-                              
-                                price: e.price,
-                                image: e.image,
-                              });
-                            }}
-                            className="btn btn-outline-primary"
-                          >
-                            addToCart
+
+                            <div className="block-4-text p-4">
+                              <h3>
+                                <Link href={"/shop/" + e.name}>{e.name}</Link>
+                              </h3>
+                              <p className="mb-0">{e.anime}</p>
+                              <p className="text-primary font-weight-bold">
+                                {e.price}
+                              </p>
+                            </div>
+                            <div
+                              onClick={() => {
+                                addToCart({
+                                  name: e.name,
+
+                                  price: e.price,
+                                  image: e.image,
+                                });
+                              }}
+                              className="btn btn-outline-primary"
+                            >
+                              addToCart
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
               <div className="col-md-3 order-1 mb-5 mb-md-0">
@@ -130,7 +138,7 @@ setAllProducts(filtred)
                   <ul className="list-unstyled mb-0">
                     <li className="mb-1">
                       <a href="#" className="d-flex">
-                        <span onClick={() => filterByCategories("hoodies")}>
+                        <span onClick={() => filterByCategories("hooddie")}>
                           hoodies
                         </span>{" "}
                       </a>
@@ -144,7 +152,7 @@ setAllProducts(filtred)
                     </li>
                     <li className="mb-1">
                       <a href="#" className="d-flex">
-                        <span onClick={() => filterByCategories("accessories")}>
+                        <span onClick={() => filterByCategories("accessorie")}>
                           accessories
                         </span>{" "}
                       </a>
@@ -158,22 +166,52 @@ setAllProducts(filtred)
                     </h3>
                     <div className="shop__sidebar__price">
                       <ul>
-                        <li className="hover-zoom hover-shadow ripple btn">
+                        <li
+                          onClick={() => {
+                            filterByPrice(0, 50, "0.00 dt - 50.00 dt");
+                          }}
+                          className="btn"
+                        >
                           0.00 dt - 50.00 dt
                         </li>
-                        <li className="hover-zoom hover-shadow ripple btn">
+                        <li
+                          onClick={() => {
+                            filterByPrice(50, 100, "50.00 dt - 100.00 dt");
+                          }}
+                          className="btn"
+                        >
                           50.00 dt - 100.00 dt
                         </li>
-                        <li className="hover-zoom hover-shadow ripple btn">
+                        <li
+                          onClick={() => {
+                            filterByPrice(100, 150, "100.00 dt - 150.00 dt");
+                          }}
+                          className="btn"
+                        >
                           100.00 dt - 150.00 dt
                         </li>
-                        <li className="hover-zoom hover-shadow ripple btn">
+                        <li
+                          onClick={() => {
+                            filterByPrice(150, 200, "150.00 dt - 200.00 dt");
+                          }}
+                          className="btn"
+                        >
                           150.00 dt - 200.00 dt
                         </li>
-                        <li className="hover-zoom hover-shadow ripple btn">
+                        <li
+                          onClick={() => {
+                            filterByPrice(200, 250, "200.00 dt - 250.00 dt");
+                          }}
+                          className="btn"
+                        >
                           200.00 dt - 250.00 dt
                         </li>
-                        <li className="hover-zoom hover-shadow ripple btn">
+                        <li
+                          onClick={() => {
+                            filterByPrice(250, 500000, "250.00 dt +");
+                          }}
+                          className="btn"
+                        >
                           250.00 dt +
                         </li>
                       </ul>
@@ -237,6 +275,6 @@ setAllProducts(filtred)
       </div>
     </>
   );
-}
+};
 
-export default index
+export default index;

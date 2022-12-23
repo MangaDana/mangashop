@@ -3,6 +3,8 @@ import axios from "axios";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Table from "react-bootstrap/Table";
 import OneUserrow from "../../components/OneUserrow";
+import Add from "../../components/Add";
+import SomeProducts from "../../components/SomeProducts";
 const admin=() => {
 
   const [users,setUsers]=useState([])
@@ -46,19 +48,19 @@ const deleteUser = (user:any) =>{
           >
             <div className="sb-sidenav-menu">
               <div className="nav">
-                <a className="nav-link" href="index.html">
+                <a className="nav-link" href="#add">
                   <div className="sb-nav-link-icon">
                     <i className="fas fa-tachometer-alt" />
                   </div>
-                  Dashboard
+                  Add Products
                 </a>
-                <a className="nav-link" href="index.html">
+                <a className="nav-link" href="#users">
                   <div className="sb-nav-link-icon">
                     <i className="fas fa-tachometer-alt" />
                   </div>
-                  User
+                  Users
                 </a>
-                <a className="nav-link" href="index.html">
+                <a className="nav-link" href="#products">
                   <div className="sb-nav-link-icon">
                     <i className="fas fa-tachometer-alt" />
                   </div>
@@ -77,18 +79,18 @@ const deleteUser = (user:any) =>{
               </ol>
 
               <div className="row">
-                <div className="col-xl-12">
+                <div className="col-xl-12" id="add">
                   <div className="card mb-4">
                     <div className="card-header">
                       <i className="fas fa-chart-area me-1" />
                       Add a Product
                     </div>
                     <div className="card-body">
-                      {/* <canvas id="myAreaChart" width="100%" height={40} /> */}
+                      <Add />
                     </div>
                   </div>
                 </div>
-                <div className="col-xl-12">
+                <div className="col-xl-12" id="users">
                   <div className="card mb-4">
                     <div className="card-header">
                       <i className="fas fa-chart-area me-1" />
@@ -114,14 +116,14 @@ const deleteUser = (user:any) =>{
                     </div>
                   </div>
                 </div>
-                <div className="col-xl-12">
+                <div className="col-xl-12" id="products">
                   <div className="card mb-4">
                     <div className="card-header">
                       <i className="fas fa-chart-bar me-1" />
                       Products
                     </div>
                     <div className="card-body">
-                      <canvas id="myBarChart" width="100%" height={40} />
+                     <SomeProducts/>
                     </div>
                   </div>
                 </div>

@@ -3,4 +3,4 @@ import axios from 'axios'
 
 
 
-export const UserContext = createContext(null);
+export const UserContext = createContext({});
